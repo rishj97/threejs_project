@@ -25,26 +25,34 @@ Click me to change name.</button>
     
 <img src="doggy.gif" onmouseover="this.src = imgsrc(0)" onmouseout="this.src = imgsrc(1)" alt="cute doggy" style="width:250px;height:250px;">
 -->
-    <h id="header1" style="background:black; color:white;border:none;display:inline-block;">Hello</h>
+    <!-- <h id="header1" style="background:black; color:white;border:none;display:inline-block;">Hello</h> -->
     <script src="functions.js"></script>
-    <script src="three.min.js"></script>
+    <script src="three.js"></script>
     <script>
             var clock = new THREE.Clock();
         var origin = new THREE.Vector3(0,0,0);
         var raycaster = new THREE.Raycaster();
         var xCord=0.0, yCord=0.0;
         var mouseDown = false;
+        var frameCount=0;
         
         var fps = 60;
         
         var mouse_ = new THREE.Vector2();
-        
+        var keyCode = 0;
+        var rotateY = 0;
+        var move = 0;
+        //var rotateY = 0;
            
 
             
             
 			var scene = new THREE.Scene();
 			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+            //camera = new THREE.CubeCamera( 1, 100000, 128 );
+            // camera.position.x = 0;
+            // camera.position.y = 0;
+             camera.position.z = 15;
             var pos = new THREE.Vector3(0,0,0.5);
 
 			var renderer = new THREE.WebGLRenderer();
@@ -52,37 +60,38 @@ Click me to change name.</button>
 			document.body.appendChild( renderer.domElement );
         
             
-            var light1 = new THREE.PointLight( 0xffffff, 4, 10 );
-            light1.position.set( 0, 6,  0);
-            //scene.add( light1 );
+            var light1 = new THREE.PointLight( 0xffffff, 4, 20 );
+            light1.position.set( 0, 4,  0);
+            scene.add( light1 );
             
             var light2 = new THREE.PointLight( 0xffffff, 4, 10 );
-            light2.position.set( 0, -6,  0);
-            //scene.add( light2 );
+            light2.position.set( 0, -4,  0);
+            scene.add( light2 );
         
             var light3 = new THREE.PointLight( 0xffffff, 4, 10 );
             light3.position.set( -2, 0,  0);
             //scene.add( light3 );
             
             var light4 = new THREE.PointLight( 0xffffff, 4, 10 );
-            light4.position.set( 2, 0,  0);
-            //scene.add( light4 );
+            light4.position.set( 0, 0,  -15);
+            scene.add( light4 );
             
-            var light5 = new THREE.PointLight( 0xffffff, 4, 10 );
-            light5.position.set( 0, 0,  5);
+            var light5 = new THREE.PointLight( 0xffffff, 4, 20 );
+            light5.position.set( 0, 0, 15);
             scene.add( light5 );
+
+            //var shadow = new THREE.SpotLightShadow(camera);
+            //scene.add( shadow );
         
-            var geometrySphere = new THREE.CylinderGeometry( 1, 1, 2, 32 );
-            var materialSphere = new THREE.MeshPhongMaterial( {color: 0x00a500} );
-            var sphere = new THREE.Mesh( geometrySphere, materialSphere );
-            camera.position.z = 5;
+            
+            
         
             var mouse, projector, ray;
             mouse = new THREE.Vector3( 0, 0, 0 );
             projector = new THREE.Projector();
             ray = new THREE.Ray( camera.position );
             var grid = [], plane;
-            //scene.add( sphere );
+            
         
 
 
@@ -94,7 +103,7 @@ Click me to change name.</button>
             
             var cube0 = new THREE.Mesh( geometry, material0 );
             cube0.position.set(-4,0,0);
-			scene.add( cube0 );
+			//scene.add( cube0 );
 			
             var cube1 = new THREE.Mesh( geometry, material1 );
             cube1.position.set(0,0,0);
@@ -102,13 +111,19 @@ Click me to change name.</button>
             
             var cube2 = new THREE.Mesh( geometry, material2 );
             cube2.position.set(4,0,0);
-			scene.add( cube2 );
+			//scene.add( cube2 );
             
-            var geometryDoDecaHedron = new THREE.DodecahedronGeometry(1);
-            var materialDoDecaHedron = new THREE.MeshLambertMaterial( {color: 0x551a8b, emissive: 0xff0000, emissiveIntensity: 5 } );
+            var geometryDoDecaHedron = new THREE.TetrahedronGeometry(2, 2);
+            var materialDoDecaHedron = new THREE.MeshStandardMaterial( {color: 0x550000/*, emissive: 0xff0000, emissiveIntensity: 5*/ } );
             var dodecaHedron = new THREE.Mesh( geometryDoDecaHedron, materialDoDecaHedron );
-            scene.add( dodecaHedron );
+            //scene.add( dodecaHedron );
+
+            var fontHel = new THREE.Font()
             
+
+            var geometryText = new THREE.TextGeometry('Hello', {font: 'helvetiker', weight: 'normal', size: 2, height: 3})
+            var myText = new THREE.Mesh( geometryText, materialDoDecaHedron );
+            scene.add(myText);
             document.addEventListener( 'mousemove', onDocumentMouseMove, false );
             document.addEventListener( 'mousedown', onDocumentMouseDown, false );
             document.addEventListener( 'mouseup', onDocumentMouseUp, false );
@@ -123,11 +138,10 @@ Click me to change name.</button>
                 
                 
                 
-                document.getElementById('header1').innerHTML ="xCord="+xCord;
+                
+                //document.getElementById('header1').innerHTML ="x="+camera.getWorldDirection().x+"y="+camera.getWorldDirection().y+"z="+camera.getWorldDirection().z;
                 //cube1.position.z +=0.01;
-                //sphere.rotation.y +=0.02;
-                sphere.rotation.x +=0.02;
-                sphere.rotation.z +=0.02;
+                
                 //cube0.position.x -=0.01;
                 //cube2.position.x +=0.01;
 //				cube0.rotation.y += 0.02;
@@ -166,7 +180,10 @@ Click me to change name.</button>
         
             function onDocumentMouseDown( event ) {
                 
+                oceanAmbientSound.play();
+                //camera.lookAt(cube0.position);
                 
+                //scene.add(light1);
                
 				mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 				mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
@@ -206,31 +223,134 @@ Click me to change name.</button>
 			}
         
         
-        function updateStats( ) {
-            raycaster.setFromCamera( mouse_, camera );	
+            function updateStats( ) {
+                raycaster.setFromCamera( mouse_, camera );	
+                dodecaHedron.rotation.y += 0.05;
 
-                // calculate objects intersecting the picking ray
-                var intersectss = raycaster.intersectObjects( scene.children );
-                xCord = intersectss.length;
+                    // calculate objects intersecting the picking ray
+                    var intersectss = raycaster.intersectObjects( scene.children );
+                    xCord = intersectss.length;
 
-                for ( var i = 0; i < intersectss.length; i++ ) {
+                    for ( var j = 0; j < scene.children.length; j++ ) {
 
-                    intersectss[ i ].object.rotation.y += 0.07;
-                    intersectss[ i ].object.rotation.z -= 0.07;
-                    intersectss[ i ].object.position.y += 0.01;
-                    if(mouseDown) {
-                        intersectss[ i ].object.position.y = 0.0;
+                        if(scene.children[j] instanceof THREE.Mesh) {
+                        scene.children[ j ].material.setValues({color: 0x222222}) ;    
+                        }
+
                     }
-                    
 
+
+
+                    for ( var i = 0; i < intersectss.length; i++ ) {
+                        frameCount++;
+
+                        intersectss[ i ].object.rotation.y += 0.09;
+                        intersectss[ i ].object.material.setValues({color: 0x220000}) ;    
+                        //intersectss[ i ].object.rotation.z -= 0.07;
+                        if(mouseDown) {
+                            intersectss[ i ].object.position.y = 0.0;
+                        }
+                        
+
+                    }
+
+                    
+                    camera.rotateY(rotateY*0.01);
+                    camera.translateOnAxis(camera.getWorldDirection(),move*0.04);
+
+
+                    
+                
+                
+                
+            }
+            
+            function moveObject( ) {
+                
+            }
+
+
+            // instantiate a listener
+            var audioListener = new THREE.AudioListener();
+
+            // add the listener to the camera
+            camera.add( audioListener );
+
+            // instantiate audio object
+            var oceanAmbientSound = new THREE.Audio( audioListener );
+
+            // add the audio object to the scene
+            scene.add( oceanAmbientSound );
+
+            // instantiate a loader
+            var loader = new THREE.AudioLoader();
+
+            // load a resource
+            loader.load(
+                // resource URL
+                'namaste.ogg',
+                // Function when resource is loaded
+                function ( audioBuffer ) {
+                    // set the audio object buffer to the loaded object
+                    oceanAmbientSound.setBuffer( audioBuffer );
+
+                    // play the audio
+                    oceanAmbientSound.play();
+                },
+                // Function called when download progresses
+                function ( xhr ) {
+                    console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
+                },
+                // Function called when download errors
+                function ( xhr ) {
+                    console.log( 'An error happened' );
                 }
+            );
+
             
-            
-        }
-        
-        function moveObject( ) {
-            
-        }
+            function onWindowResize() {
+                camera.left = window.innerWidth / - 2;
+                camera.right = window.innerWidth / 2;
+                camera.top = window.innerHeight / 2;
+                camera.bottom = window.innerHeight / - 2;
+                camera.updateProjectionMatrix();
+                renderer.setSize( window.innerWidth, window.innerHeight );
+            }
+
+            document.addEventListener('keydown', function(event) {
+    
+                keyCode = event.keyCode;
+
+                if(keyCode == 39 ) {
+                    rotateY = -1;
+                } else if (keyCode == 37 ) {
+                    rotateY = 1;
+                } else if (keyCode == 38 ) {
+                    move = 1;
+                } else if (keyCode == 40 ) {
+                    move = -1;
+                }
+
+        //alert(keyCode);
+            });
+
+            document.addEventListener('keyup', function(event) {
+    
+                keyCode = event.keyCode;
+
+                if(keyCode == 39 ) {
+                    rotateY = 0;
+                } else if (keyCode == 37 ) {
+                    rotateY = 0;
+                } else if (keyCode == 38 ) {
+                    move = 0;
+                } else if (keyCode == 40 ) {
+                    move = 0;
+                }
+
+        //alert(keyCode);
+            });
+
             
 			render();
 		</script>
