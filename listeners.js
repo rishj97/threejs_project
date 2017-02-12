@@ -1,8 +1,10 @@
 document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 document.addEventListener( 'mousedown', onDocumentMouseDown, false );
 document.addEventListener( 'mouseup', onDocumentMouseUp, false );
-        
+var blopAudio = new Audio('Blop.mp3');        
+var waterAudio = new Audio('Water.mp3');        
 function onDocumentMouseMove( event ) {
+      // waterAudio.play();
       mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
       mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
       mouse.z = 0.5;
@@ -15,7 +17,6 @@ function onDocumentMouseMove( event ) {
       pos.z = 0.5;   
 }
 function onDocumentMouseDown( event ) {
-      oceanAmbientSound.play();
       //scene.add(light1);
       mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
       mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;

@@ -59,35 +59,6 @@ var materialDoDecaHedron = new THREE.MeshStandardMaterial( {color: 0x550000/*, e
 var dodecaHedron = new THREE.Mesh( geometryDoDecaHedron, materialDoDecaHedron );
 scene.add( dodecaHedron );
 
-
-var audioListener = new THREE.AudioListener();
-camera.add( audioListener );
-// instantiate audio object
-var oceanAmbientSound = new THREE.Audio( audioListener );
-// instantiate a loader
-var loader = new THREE.AudioLoader();
-// load a resource
-loader.load(
-    // resource URL
-    'namaste.ogg',
-    // Function when resource is loaded
-    function ( audioBuffer ) {
-        // set the audio object buffer to the loaded object
-        oceanAmbientSound.setBuffer( audioBuffer );
-
-        // play the audio
-        oceanAmbientSound.play();
-    },
-    // Function called when download progresses
-    function ( xhr ) {
-        console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
-    },
-    // Function called when download errors
-    function ( xhr ) {
-        console.log( 'An error happened' );
-    }
-);
-
 var render = function () {
     requestAnimationFrame(render);
     updateStats();
@@ -113,6 +84,7 @@ function updateStats( ) {
         if(mouseDown) {
             intersectss[ i ].object.position.y = 0.0;
         }
+        blopAudio.play();
     }
     camera.rotateY(rotateY*0.01);
     camera.translateOnAxis(camera.getWorldDirection(),move*0.04);
