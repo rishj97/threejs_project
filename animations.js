@@ -11,7 +11,6 @@ var rotateY = 0;
 var move = 0;    
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
-//camera = new THREE.CubeCamera( 1, 100000, 128 );
 camera.position.z = 15;
 var pos = new THREE.Vector3(0,0,0.5);
 

@@ -17,7 +17,6 @@ function onDocumentMouseMove( event ) {
       pos.z = 0.5;   
 }
 function onDocumentMouseDown( event ) {
-      //scene.add(light1);
       mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
       mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
       mouse.z = 0.5;
