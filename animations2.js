@@ -21,28 +21,22 @@ renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
 var light1 = new THREE.PointLight( 0xffffff, 4, 20 );
-light1.position.set( 0, 8,  0);
-var light2 = new THREE.PointLight( 0xffffff, 4, 10 );
-light2.position.set( 0, -4,  0);
-var light3 = new THREE.PointLight( 0xffffff, 4, 10 );
-light3.position.set( -2, 0,  0);
-var light4 = new THREE.PointLight( 0xffffff, 4, 10 );
-light4.position.set( 0, 0,  -15);
-var light5 = new THREE.PointLight( 0xffffff, 4, 20 );
+light1.position.set( -4, 8, 4);
+var light2 = new THREE.PointLight( 0xffffff, 10, 15 );
+light2.position.set( 4, 8, 4);
+var light5 = new THREE.PointLight( 0xffffff, 4, 15 );
 light5.position.set( 0, 0, 15);
 
 light1.castShadow = true;
-scene.add( light1 );
-
+light2.castShadow = true;
+// scene.add( light1 );
+scene.add( light2 );
 //Set up shadow properties for the light
 light1.shadow.mapSize.width = 512;  // default
 light1.shadow.mapSize.height = 512; // default
 light1.shadow.camera.near = 0.5;       // default
 light1.shadow.camera.far = 500      // default
 
-// scene.add( light2 );
-// scene.add( light3 );    
-// scene.add( light4 );
 scene.add( light5 );
 
 var mouse, ray;
@@ -58,13 +52,19 @@ dodecaHedron.castShadow = true;
 dodecaHedron.receiveShadow = false;
 scene.add( dodecaHedron );
 
-var geometry = new THREE.PlaneGeometry( 50, 20, 32 );
-var material = new THREE.MeshLambertMaterial( {color: 0x555500, side: THREE.DoubleSide} );
+var geometry = new THREE.PlaneGeometry( 50, 50, 32, 32);
+var material = new THREE.MeshPhongMaterial( {color: 0x555500, side: THREE.DoubleSide} );
 var plane = new THREE.Mesh( geometry, material );
-plane.rotateX (-3.1415926/2);
-plane.translateZ (-4);
+plane.rotateX (Math.PI/2);
+plane.translateZ (4);
 plane.receiveShadow = true;
 scene.add( plane );
+
+var plane2 = new THREE.Mesh( geometry, material );
+plane2.rotateX (Math.PI/2);
+plane2.translateZ (-4);
+plane2.receiveShadow = true;
+scene.add( plane2 );
 
 var render = function () {
     requestAnimationFrame(render);
@@ -75,7 +75,7 @@ var yCordinate = 0;
 function updateStats( ) {
     raycaster.setFromCamera( mouse_, camera );	
     dodecaHedron.rotation.y += 0.05;
-    yCordinate+=0.04;
+    yCordinate+=0.1;
     dodecaHedron.position.y = Math.sin(yCordinate);
     camera.rotateY(rotateY*0.01);
     light5.rotateY(rotateY*0.01);
